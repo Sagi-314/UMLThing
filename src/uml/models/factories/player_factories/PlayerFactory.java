@@ -1,45 +1,38 @@
 package uml.models.factories.player_factories;
 
-
-import uml.models.movements.Movement;
+import uml.models.directions.MoveBackAndForth;
+import uml.models.directions.MoveBoxWise;
+import uml.models.directions.Rotatable;
 import uml.models.rects.RotatableRect;
 
 public abstract class PlayerFactory
 {
-    private RotatableRect rect;
+    public abstract int getBaseSpeed();
+    public abstract int getBaseRotationSpeed();
 
+    protected RotatableRect rect;
 
-    //overridable
-    protected RotatableRect createBox()
-    {
-        return new RotatableRect();
-    }
-    public Movement<?> createMovement()
-    {
-        return null;
-    }
-    public double getBasicSpeed()
-    {
-        return 3;
-    }
-    public double getBasicRotationSpeed()
-    {
-        return 1;
-    }
-
-    public Object createBaseDirection()
-    {
-        return null;
-    }
-
-    //non overridable
-
-    public final RotatableRect getBox()
+    public final RotatableRect getRotatableRect()
     {
         if (rect == null)
         {
-            return rect = createBox();
+            rect = new RotatableRect();
         }
         return rect;
+    }
+
+    public Rotatable createRotatable()
+    {
+        return null;
+    }
+
+    public MoveBackAndForth createMoveBackAndForth()
+    {
+        return null;
+    }
+
+    public MoveBoxWise createMoveBoxWise()
+    {
+        return null;
     }
 }

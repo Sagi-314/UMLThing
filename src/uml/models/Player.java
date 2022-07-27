@@ -1,43 +1,102 @@
 package uml.models;
 
+import uml.models.directions.*;
+import uml.models.directions.Rotatable;
 import uml.models.rects.RotatableRect;
 import uml.models.factories.player_factories.PlayerFactory;
-import uml.models.movements.Movement;
 
 public class Player
 {
     private final RotatableRect rect;
-    private final Movement<?> movement;
 
-    private final double basicSpeed;
-    private final double basicRotationSpeed;
+    private final double baseSpeed;
+    private final double baseRotationSpeed;
+
+    private double speed;
+    private double rotationSpeed;
+
+    private final Rotatable rotatable;
+    private final MoveBackAndForth moveBackAndForth;
+    private final MoveBoxWise moveBoxWise;
 
     public Player(PlayerFactory playerFactory)
     {
-        rect = playerFactory.getBox();
-        movement = playerFactory.createMovement();
-        basicSpeed = playerFactory.getBasicSpeed();
-        basicRotationSpeed = playerFactory.getBasicRotationSpeed();
+        rect = playerFactory.getRotatableRect();
+        rotatable = playerFactory.createRotatable();
+        moveBackAndForth = playerFactory.createMoveBackAndForth();
+        moveBoxWise = playerFactory.createMoveBoxWise();
+        baseSpeed = playerFactory.getBaseSpeed();
+        baseRotationSpeed = playerFactory.getBaseRotationSpeed();
+
+        speed = baseSpeed;
+        rotationSpeed = baseRotationSpeed;
     }
 
-    public void move()
+
+    public void moveForward()
     {
-        if (movement != null)
+        if (moveBackAndForth != null)
         {
-            movement.move(rect, basicSpeed, basicRotationSpeed);
+            moveBackAndForth.moveForward(rect, speed);
+        }
+    }
+    public void moveBackward()
+    {
+        if (moveBackAndForth != null)
+        {
+            moveBackAndForth.moveBackward(rect, speed);
         }
     }
 
-    public Movement<?> getMovement()
+
+    public void moveLeft()
     {
-        return movement;
+        if (moveBoxWise != null)
+        {
+            moveBoxWise.moveLeft(rect, speed);
+        }
+    }
+    public void moveRight()
+    {
+        if (moveBoxWise != null)
+        {
+            moveBoxWise.moveRight(rect, speed);
+        }
+    }
+    public void moveUp()
+    {
+        if (moveBoxWise != null)
+        {
+            moveBoxWise.moveUp(rect, speed);
+        }
+    }
+    public void moveDown()
+    {
+        if (moveBoxWise != null)
+        {
+            moveBoxWise.moveDown(rect, speed);
+        }
+    }
+
+
+    public void rotateClockwise()
+    {
+        if (rotatable != null)
+        {
+            rotatable.rotateClockwise(rect, rotationSpeed);
+        }
+    }
+    public void rotateCounterclockwise()
+    {
+        if (rotatable != null)
+        {
+            rotatable.rotateCounterclockwise(rect, rotationSpeed);
+        }
     }
 
     @Override
     public String toString()
     {
-        return "Player{" +
-                "rect=" + rect +
-                '}';
+        return rect.toString();
     }
 }
